@@ -1257,7 +1257,7 @@
                         };
   
                         
-                        // Merge adjacent arrays into the same digit; empty array
+                        // Merge adjacent arrays into the same digit; and clear that array
                         for (var f = 1; f < arrayToMerge.length ; f++){
                             window['arrayN' + arrayToMerge[0]] = window['arrayN' + arrayToMerge[0]].concat(window['arrayN' + arrayToMerge[f]]);
                             window['arrayN' + arrayToMerge[f]] = [];
@@ -1291,11 +1291,9 @@
             
             /*********************
             *** PROCESS IMAGE  *** 
-            **********************/  
-            var sounds = document.getElementsByTagName('audio');
-            for(i=0; i<sounds.length; i++) sounds[i].pause();
+            **********************/   
             
-            // Create another canvas 280 x 280 to put indiviual digit
+            // Use hidden canvas to put indiviual digit
             var canvasIndImage = document.getElementById("canvasCont2");      
             var contextIndImg = canvasIndImage.getContext("2d");
             contextIndImg.clearRect(0, 0, canvasIndImage.width, canvasIndImage.height);
@@ -1317,14 +1315,14 @@
             var maxX = Math.max.apply(null, rowArray);
             var minY = Math.min.apply(null, columnArray);
             var maxY = Math.max.apply(null, columnArray);
-            var originalWidth = maxX-minX;
-            var originalHeight = maxY-minY;
+            var originalWidth = maxX - minX;
+            var originalHeight = maxY - minY;
 
 
             // To normalize the image and make it similar to the training dataset:
             // Scale the image to a 18 x 18 pixel and center it into a 28 x 28 canvas
             // The largest between the width and height will be scaled to 18 pixel
-            // The other will be reduced by the same scale, to preserve aspect ratio
+            // The other will be reduced by the same scale, to preserve original aspect ratio
             var scaleRed;
             if (originalHeight > originalWidth){
                 scaleRed = originalHeight/18;
@@ -1388,8 +1386,7 @@
             a3.pop();
 
             // Answer is the index of the max value of a3
-            var answer = a3.indexOf(Math.max.apply(null, a3));
-           // console.log(a3.indexOf(Math.max.apply(null, a3)) + ' ' + Math.max.apply(null, a3));            
+            var answer = a3.indexOf(Math.max.apply(null, a3));            
             
             // Draw answer
             contextAnswer.clearRect(minX, minY, originalWidth, originalHeight);            
@@ -1414,12 +1411,13 @@
             for (var column = 0; column < matrixB[0].length; column++){
                 var m = 0;
                 for (var row = 0; row < matrixA.length; row++){
-                    m = m + matrixA[row]*(matrixB[row][column]);
+                    m = m + matrixA[row] * matrixB[row][column];
                 }
                 result[column] = m;
             }
             return result;
-        }        
+        }
+        
     </script>
     
     <style>
@@ -1487,13 +1485,13 @@
         </div>
         <div id = "div_answer">
             <p id="label">Results:</p>  
-            <canvas id= "canvasAnswer" width="400" height="400">Your browser does not support the HTML5 canvas tag.</canvas><br>
+            <canvas id= "canvasAnswer" width="400" height="400"></canvas><br>
         </div>
         <input type="button" class=button value="Clear" id="clr" size="30">
     </div>
     
 
-    <canvas id= "canvasCont2" width="400" height="400">Your browser does not support the HTML5 canvas tag.</canvas>   
+    <canvas id= "canvasCont2" width="400" height="400"></canvas>   
     
 
 
